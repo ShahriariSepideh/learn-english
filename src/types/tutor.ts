@@ -1,27 +1,47 @@
+export interface TutorUser {
+  id: number | string;
+  email: string;
+  first_name?: string;
+  last_name?: string;
+}
+
+export type TutorLanguage =
+  | string
+  | {
+      language?: string;
+      level?: string;
+    };
+
 export interface Tutor {
   id: number | string;
-  name?: string;
-  full_name?: string;
-  email?: string;
-  languages?: string[] | string;
+  user?: TutorUser;
+  profile_picture?: string | null;
+  languages_spoken?: TutorLanguage[] | Record<string, string>;
+  country?: string;
+  subjects?: string[];
+  phone_number?: string;
   bio?: string;
-  short_bio?: string;
-  experience?: string;
-  education?: string;
-  video?: string;
-  profile_video?: string;
-  approved_is?: boolean;
-  is_approved?: boolean;
-  rating?: number;
-  students_count?: number;
-  active_courses_count?: number;
+  teaching_style?: string;
+  expectation?: string;
+  description?: string;
+  intro_video_url?: string;
+  intro_video_file?: string | null;
+  certificates?: unknown[];
+  educations?: unknown[];
+  experiences?: unknown[];
+  courses?: unknown[];
 }
 
 export interface TutorProfilePayload {
-  languages?: string[] | string;
+  languages_spoken?: TutorLanguage[] | Record<string, string>;
+  country?: string;
+  subjects?: string[];
+  phone_number?: string;
   bio?: string;
-  short_bio?: string;
-  experience?: string;
-  education?: string;
-  video?: File | null;
+  teaching_style?: string;
+  expectation?: string;
+  description?: string;
+  intro_video_url?: string;
+  intro_video_file?: File | null;
+  profile_picture?: File | null;
 }

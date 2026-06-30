@@ -1,10 +1,13 @@
 export interface BlogPost {
   id: number | string;
   title: string;
-  summary?: string;
-  content?: string;
   author?: string;
+  description?: string;
+  content?: string;
+  category?: string;
+  difficulty_level?: string;
+  featured?: boolean;
   created_at?: string;
-  published_at?: string;
-  image?: string;
+  updated_at?: string;
+  picture?: string | null;
 }
