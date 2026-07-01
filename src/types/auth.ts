@@ -1,13 +1,13 @@
-export type UserRole = "student" | "tutor" | "admin";
-
 export interface AuthUser {
-  id: number | string;
-  name?: string;
-  full_name?: string;
+  id: number;
   email: string;
-  role: UserRole;
-  approved_is?: boolean;
-  is_approved?: boolean;
+  first_name: string;
+  last_name: string;
+  is_teacher: boolean;
+  profile_picture: string | null;
+  has_tutor_profile: boolean;
+  tutor_id: number | null;
+  tutor_approved: boolean | null;
 }
 
 export interface LoginPayload {
@@ -15,9 +15,21 @@ export interface LoginPayload {
   password: string;
 }
 
+export interface LoginResponse {
+  ok: boolean;
+  access?: string;
+  refresh?: string;
+}
+
 export interface RegisterPayload {
-  name: string;
   email: string;
   password: string;
-  role: "student" | "tutor";
+  first_name: string;
+  last_name: string;
+  is_teacher: boolean;
+}
+
+export interface AuthState {
+  user: AuthUser | null;
+  isAuthenticated: boolean;
 }
