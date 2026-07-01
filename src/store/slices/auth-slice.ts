@@ -4,6 +4,7 @@ import type { AuthState, AuthUser } from "@/types/auth";
 const initialState: AuthState = {
   user: null,
   isAuthenticated: false,
+  isHydrated: false,
 };
 
 const authSlice = createSlice({
@@ -18,11 +19,12 @@ const authSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
     },
+    setHydrated(state, action: PayloadAction<boolean>) {
+      state.isHydrated = action.payload;
+    },
   },
 });
 
-export const { setUser, clearUser } = authSlice.actions;
-
+export const { setUser, clearUser, setHydrated } = authSlice.actions;
 export const authReducer = authSlice.reducer;
-
 export default authReducer;

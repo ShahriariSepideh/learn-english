@@ -32,4 +32,5 @@ export interface RegisterPayload {
 export interface AuthState {
   user: AuthUser | null;
   isAuthenticated: boolean;
+  isHydrated: boolean;
 }
