@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { authService } from "@/services/auth.service";
@@ -12,46 +12,49 @@ export function AuthBootstrap({ children }: { children: React.ReactNode }) {
     const router = useRouter();
     const pathname = usePathname();
 
-    const { user, isHydrated } = useSelector((state: RootState) => state.auth);
+    const { user, isHydrated } = useSelector(
+        (state: RootState) => state.auth
+    );
+
+    const ran = useRef(false);
 
     useEffect(() => {
-        if (isHydrated) return;
-
-        let cancelled = false;
+        if (ran.current) return;
+        ran.current = true;
 
         authService
             .me()
-            .then((currentUser) => {
-                if (!cancelled) dispatch(setUser(currentUser));
-            })
-            .catch(() => {
-                if (!cancelled) dispatch(clearUser());
-            })
-            .finally(() => {
-                if (!cancelled) dispatch(setHydrated(true));
-            });
-
-        return () => {
-            cancelled = true;
-        };
-    }, [dispatch, isHydrated]);
+            .then((u) => dispatch(setUser(u)))
+            .catch(() => dispatch(clearUser()))
+            .finally(() => dispatch(setHydrated(true)));
+    }, [dispatch]);
 
     useEffect(() => {
         if (!isHydrated) return;
 
-        const isAuthPage =
-            pathname === "/login" || pathname.startsWith("/register");
-        const isDashboardPage = pathname.startsWith("/dashboard");
+        const isPublic =
+            pathname === "/" ||
+            pathname.startsWith("/courses") ||
+            pathname.startsWith("/blog") ||
+            pathname.startsWith("/tutors") ||
+            pathname.startsWith("/login") ||
+            pathname.startsWith("/register");
 
-        if (isDashboardPage && !user) {
+        const isDashboard = pathname.startsWith("/dashboard");
+
+        if (isDashboard && !user) {
             router.replace("/login");
             return;
         }
 
-        if (isAuthPage && user) {
-            router.replace(user.is_teacher ? "/dashboard/tutor" : "/dashboard/student");
+        if ((pathname === "/login" || pathname.startsWith("/register")) && user) {
+            router.replace(
+                user.is_teacher
+                    ? "/dashboard/tutor"
+                    : "/dashboard/student"
+            );
         }
-    }, [isHydrated, pathname, router, user]);
+    }, [isHydrated, pathname, user, router]);
 
     return <>{children}</>;
 }

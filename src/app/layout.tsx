@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
-import { AppProviders } from "@/providers/app-providers";
 import "./globals.css";
+import { AppProviders } from "@/providers/app-providers";
 
 export const metadata: Metadata = {
-  title: "Learn English",
-  description: "English learning platform for students and tutors",
+    title: "Learn English",
+    description: "English learning platform",
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-      <html lang="fa" dir="rtl" suppressHydrationWarning>
-      <body>
+                                       children,
+                                   }: {
+    children: React.ReactNode;
+}) {
+    return (
+        <html lang="fa" dir="rtl" suppressHydrationWarning>
+        <body>
         <AppProviders>{children}</AppProviders>
-      </body>
-    </html>
-  );
+        </body>
+        </html>
+    );
 }

@@ -1,6 +1,45 @@
 import type { Course } from "@/types/course";
 
-export type EnrollmentStatus = "pending" | "approved" | "rejected";
+export interface StudentHomework {
+  id: number | string;
+  title?: string;
+  due_date?: string;
+  document?: string;
+}
+
+export interface StudentDashboardStudent {
+  id: number | string;
+  user: number | string;
+  courses_list?: Course[];
+  favourite_tutors?: Array<{
+    id: number | string;
+    user?: {
+      first_name?: string;
+      last_name?: string;
+      email?: string;
+    };
+    profile_picture?: string | null;
+  }>;
+  student_active?: boolean;
+  student_homework_completed?: StudentHomework[];
+}
+
+export interface StudentEnrollment {
+  id: number | string;
+  course?: {
+    id?: number | string;
+    title?: string;
+  };
+  status?: string;
+  payment_amount?: string;
+  currency?: string;
+}
+
+export interface StudentDashboard {
+  student?: StudentDashboardStudent;
+  enrollments?: StudentEnrollment[];
+  approved_courses?: Course[];
+}
 
 export interface StudentProfile {
   id: number | string;
@@ -11,24 +50,6 @@ export interface StudentProfile {
   language_level?: string;
   level?: string;
   phone?: string;
-}
-
-export interface Enrollment {
-  id: number | string;
-  course?: Course;
-  course_id?: number | string;
-  status: EnrollmentStatus;
-  payment_status?: EnrollmentStatus | string;
-  created_at?: string;
-}
-
-export interface StudentDashboard {
-  profile?: StudentProfile;
-  enrollments?: Enrollment[];
-  courses?: Course[];
-  payments?: Enrollment[];
-  homeworks?: unknown[];
-  progress?: number;
 }
 
 export interface StudentProfilePayload {

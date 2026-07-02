@@ -1,25 +1,13 @@
 import { api } from "@/lib/api";
-import type {
-  StudentDashboard,
-  StudentProfile,
-  StudentProfilePayload,
-} from "@/types/student";
 
 export const studentService = {
-  getProfile: async (): Promise<StudentProfile> => {
-    const response = await api.get("/students/me/");
-    return response.data;
+  getProfile: async () => {
+    const { data } = await api.get("/students/me/");
+    return data;
   },
 
-  updateProfile: async (
-    payload: StudentProfilePayload,
-  ): Promise<StudentProfile> => {
-    const response = await api.patch("/students/me/profile/", payload);
-    return response.data;
-  },
-
-  getDashboard: async (): Promise<StudentDashboard> => {
-    const response = await api.get("/students/me/dashboard/");
-    return response.data;
+  getDashboard: async () => {
+    const { data } = await api.get("/students/me/dashboard/");
+    return data;
   },
 };

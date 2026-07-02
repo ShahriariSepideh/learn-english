@@ -60,9 +60,6 @@ export default function LoginPage() {
               <h1 className="mt-3 text-3xl font-black text-slate-950 dark:text-white">
                 ورود به حساب کاربری
               </h1>
-              <p className="mt-3 leading-7 text-slate-500 dark:text-slate-400">
-                با ایمیل و رمز عبور وارد شوید تا به بخش‌های کاربری دسترسی داشته باشید.
-              </p>
             </div>
 
             <form

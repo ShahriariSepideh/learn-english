@@ -1,13 +1,34 @@
 import axios from "axios";
 
-const apiBaseUrl =
-  process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ||
-  "http://localhost:8000";
+const apiBaseUrl = "http://localhost:8000";
+
+export const publicApi = axios.create({
+    baseURL: `${apiBaseUrl}/api`,
+});
 
 export const api = axios.create({
-  baseURL: `${apiBaseUrl}/api`,
-  withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
+    baseURL: `${apiBaseUrl}/api`,
+    withCredentials: true,
 });
+
+api.interceptors.request.use((config) => {
+    const token = localStorage.getItem("access_token");
+
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+});
+
+api.interceptors.response.use(
+    (res) => res,
+    (error) => {
+        if (error.response?.status === 401) {
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "/login";
+        }
+        return Promise.reject(error);
+    }
+);
